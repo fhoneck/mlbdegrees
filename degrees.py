@@ -185,14 +185,21 @@ cols = st.beta_columns(2)
 p1search = cols[0].text_input("Player 1 Search")
 p1list = playerList(p1search)
 p1 = cols[1].selectbox("Player 1",p1list)
-p1 = [p.split(')')[0] for p in p1.split('(') if ')' in p][0]
+p1 = int([p.split(')')[0] for p in p1.split('(') if ')' in p][0])
 
 cols2 = st.beta_columns(2)
 p2search = cols2[0].text_input("Player 2 Search")
 p2list = playerList(p2search)
 p2 = cols2[1].selectbox("Player 2",p2list)
-p2 = [p.split(')')[0] for p in p2.split('(') if ')' in p][0]
+p2 = int([p.split(')')[0] for p in p2.split('(') if ')' in p][0])
+gap = abs(min(sheet[sheet["playerid"]==p1]["Season"])-min(sheet[sheet["playerid"]==p2]["Season"]))
+suggestion = int(gap/5.9)
+if suggestion<6:
+    suggestion = 0
+if suggestion>13:
+    suggestion = 13
 minimumjump = st.slider("Shortcuts",0,20)
+st.info("Shortcuts Suggestion: " + str(suggestion))
 if minimumjump == 0:
     minimumjump = -100
 st.write("A large Shortcuts number speeds up long searches, but risks missing connections. 0 is the slowest but most thorough search.")
